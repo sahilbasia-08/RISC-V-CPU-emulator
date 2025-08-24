@@ -6,7 +6,8 @@
 #include <cstdint>
 
 // currently we are using only 1MB of 
-// DRAM size
+// DRAM size, as the project currently aims to 
+// emulation of simple instruction only (for now)
 #define DRAM_SIZE 1*1024*1024
 
 // the starting address of DRAM is always from the 0x80000000
@@ -22,7 +23,7 @@
 // So if we image it, DRAM will start from physical address as
 // DRAM_BASE_ADDRESS and then the DRAM_SIZE will be 1MB only
 typedef struct {
-    uint8_t mem[DRAM_SIZE]; 
+    uint8_t memory[DRAM_SIZE]; 
 } DRAM;
 
 

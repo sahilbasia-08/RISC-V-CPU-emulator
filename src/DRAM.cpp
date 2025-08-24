@@ -79,6 +79,66 @@ uint64_t load_from_dram(DRAM* dram, uint64_t addr, uint64_t size){
     }
 }
 
+// Similar to load_from_dram, the memory address will
+// be calculated in 0 base indexing form, becuase memory is array data structure
+
 void store_to_dram(DRAM *dram, uint64_t addr, uint64_t size, uint64_t data){
-    dram->memory[addr - DRAM_BASE_ADDRESS] = (uint8_t)data;
+
+    // since data can be 64 bit, therefore we are using 0xff - 1111 1111 binary
+    // to capture the first 8 bits from the right
+
+
+    if(size == 8){
+        dram->memory[addr - DRAM_BASE_ADDRESS] = (uint8_t)(data & 0xff);
+    }
+    else if(size == 16){
+        // 0x1234 is the number
+        // then data & 0xff = 34 only, so last 2 captured and now we will store them 
+        // according to little endian system, first LSB will be stored on lower memory address
+
+        // so ram | 0 | = 34
+        //    ram | 1 | = 12
+        
+        dram->memory[addr - DRAM_BASE_ADDRESS] = (uint8_t)(data & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+1] = (uint8_t)((data>>8) & 0xff);
+
+    }
+    else if(size == 32){
+        // Similarly as sie 16, we will do 3 times right shift to easily place the 
+        // the data on the desired address in sDRAM
+
+        // 0x12345678
+
+        // ram | 0 | = 78
+        // ram | 1 | = 56
+        // ram | 2 | = 34
+        // ram | 3 | = 12
+
+        dram->memory[addr - DRAM_BASE_ADDRESS] = (uint8_t)(data & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+1] = (uint8_t)((data>>8) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+2] = (uint8_t)((data>>16) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+3] = (uint8_t)((data>>24) & 0xff);
+    }
+    else{
+        // 0x123456789ABCDEFH
+
+        // ram | 0 | = FH
+        // ram | 1 | = DE
+        // ram | 2 | = BC
+        // ram | 3 | = 9A
+        // ram | 4 | = 78
+        // ram | 5 | = 56
+        // ram | 6 | = 34
+        // ram | 7 | = 12
+
+        dram->memory[addr - DRAM_BASE_ADDRESS] = (uint8_t)(data & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+1] = (uint8_t)((data>>8) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+2] = (uint8_t)((data>>16) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+3] = (uint8_t)((data>>24) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+4] = (uint8_t)((data>>32) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+5] = (uint8_t)((data>>40) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+6] = (uint8_t)((data>>48) & 0xff);
+        dram->memory[addr - DRAM_BASE_ADDRESS+7 ] = (uint8_t)((data>>56) & 0xff);
+    }
+
 }
