@@ -59,7 +59,7 @@ uint64_t load_from_dram(DRAM* dram, uint64_t addr, uint64_t size){
         (uint64_t)dram->memory[addr - DRAM_BASE_ADDRESS +2] <<16|
         (uint64_t)dram->memory[addr - DRAM_BASE_ADDRESS +3] <<24;
     }
-    else{
+    else if(size == 64){
         // ||            0-7                || +0
         // ||            8-15               || +1
         // ||            16-23              || +2 
@@ -77,6 +77,10 @@ uint64_t load_from_dram(DRAM* dram, uint64_t addr, uint64_t size){
         | (uint64_t)dram->memory[addr - DRAM_BASE_ADDRESS +6] <<48
         | (uint64_t)dram->memory[addr - DRAM_BASE_ADDRESS +7] <<56;
     }
+    else{
+        std::cerr<<"Cannont read for a unkown size value, returning \n";
+        exit(-1);
+    }
 }
 
 // Similar to load_from_dram, the memory address will
@@ -86,7 +90,6 @@ void store_to_dram(DRAM *dram, uint64_t addr, uint64_t size, uint64_t data){
 
     // since data can be 64 bit, therefore we are using 0xff - 1111 1111 binary
     // to capture the first 8 bits from the right
-
 
     if(size == 8){
         dram->memory[addr - DRAM_BASE_ADDRESS] = (uint8_t)(data & 0xff);
@@ -119,7 +122,7 @@ void store_to_dram(DRAM *dram, uint64_t addr, uint64_t size, uint64_t data){
         dram->memory[addr - DRAM_BASE_ADDRESS+2] = (uint8_t)((data>>16) & 0xff);
         dram->memory[addr - DRAM_BASE_ADDRESS+3] = (uint8_t)((data>>24) & 0xff);
     }
-    else{
+    else if(size == 64){
         // 0x123456789ABCDEFH
 
         // ram | 0 | = FH
@@ -139,6 +142,10 @@ void store_to_dram(DRAM *dram, uint64_t addr, uint64_t size, uint64_t data){
         dram->memory[addr - DRAM_BASE_ADDRESS+5] = (uint8_t)((data>>40) & 0xff);
         dram->memory[addr - DRAM_BASE_ADDRESS+6] = (uint8_t)((data>>48) & 0xff);
         dram->memory[addr - DRAM_BASE_ADDRESS+7 ] = (uint8_t)((data>>56) & 0xff);
+    }
+    else{
+        std::cerr<<"Unkown size passed. Pass correct size values from 8, 16, 32, 64 \n EXITING!! \n";
+        exit(-1);
     }
 
 }
