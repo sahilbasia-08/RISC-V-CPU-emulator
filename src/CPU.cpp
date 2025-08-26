@@ -1,5 +1,7 @@
 #include "../header_files/CPU.h"
 
+#include <iostream>
+
 void cpu_init(CPU *cpu){
     // https://en.wikichip.org/wiki/risc-v/registers refer this for cpu register info
 
@@ -57,3 +59,20 @@ uint32_t cpu_fetch(CPU *cpu){
                                                              // support for 16 bit and and other variabvle size instruction sizes
 }
 
+void dump_register_content(CPU *cpu){
+    std::cout<<"Hardwired zero "<<cpu->cpu_reg[0]<<std::endl;
+    std::cout<<"Return address "<<cpu->cpu_reg[1]<<std::endl;
+    std::cout<<"Stack pointer "<<cpu->cpu_reg[2]<<std::endl;
+    std::cout<<"Global pointer "<<cpu->cpu_reg[3]<<std::endl;
+    std::cout<<"Thread pointer "<<cpu->cpu_reg[4]<<std::endl;
+    std::cout<<"Temporary register 0 "<<cpu->cpu_reg[5]<<std::endl;
+    std::cout<<"Temporary register 1 "<<cpu->cpu_reg[6]<<std::endl;
+    std::cout<<"Temporary register 2 "<<cpu->cpu_reg[7]<<std::endl;
+    std::cout<<"Saved register 0 / Frame pointer "<<cpu->cpu_reg[8]<<std::endl;
+    std::cout<<"Saved register 1 "<<cpu->cpu_reg[9]<<std::endl;
+    std::cout<<"Function argument 0 / Return value 0 "<<cpu->cpu_reg[10]<<std::endl;
+    std::cout<<"Function argument 1 / Return value 1 "<<cpu->cpu_reg[11]<<std::endl;
+    std::cout<<"Function argument 2 "<<cpu->cpu_reg[12]<<std::endl;
+    std::cout<<"Function argument 3 "<<cpu->cpu_reg[13]<<std::endl;
+    std::cout<<"Function argument 4 "<<cpu->cpu_reg[14]<<std::endl;
+}
