@@ -15,8 +15,12 @@ typedef struct {
 
 
 void cpu_init(CPU *cpu);         // this function will initialize the CPU to factory reset
-uint64_t cpu_fetch(CPU *cpu);    // THe cpu will read the DRAM to get the instruction. 
+uint32_t cpu_fetch(CPU *cpu);    // THe cpu will read the DRAM to get the instruction. 
                                  // using bus it will fetch the instruction
+                                 // base instruction size in risc V is 32 bit size
+                                 // but it support variable length instrn size also
+
+
 uint64_t cpu_execute(CPU *cpu);  // this function will do both works 
                                  // of decode and executin the fetched instruction
 
