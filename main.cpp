@@ -14,10 +14,10 @@ int main(){
     std::cout<<"\n";
     std::cout<<" -> Dumping register content of the current state of the CPU"<<std::endl;
     dump_register_content(&cpu);
-    std::cout<<"/n";
+    std::cout<<"\n";
     std::cout<<" -> Testing cpu load and store to some x address"<<std::endl;
-
-    cpu_store(&cpu, 0, 64, (uint64_t)32);
-    std::cout<<"value loaded is "<<cpu_load(&cpu, 0, 64);
+    std::cout<<"Storing value 10919191919 for testing at address 0x80000000"<<std::endl;
+    cpu_store(&cpu, 2147483648, 64, (uint64_t)10919191919);
+    std::cout<<"value loaded is "<<cpu_load(&cpu, 2147483648, 64)<<std::endl;
     return 0;
 }
