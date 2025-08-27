@@ -2,7 +2,7 @@
 #include "../header_files/BUS.h"
 
 typedef struct {
-    uint64_t cpu_reg[32]; // RISC - V CPU has total of 32 registers
+    uint64_t cpu_reg[32]={0}; // RISC - V CPU has total of 32 registers
                           // 0x0 wil be hardwarired to the 0 value,
                           // rest will be used for storing values
     uint64_t pc;          // Program counter register - to store the address of next instruction
@@ -25,3 +25,6 @@ uint64_t cpu_execute(CPU *cpu);  // this function will do both works
                                  // of decode and executin the fetched instruction
 
 void dump_register_content(CPU *cpu);
+
+void cpu_store(CPU *cpu, uint64_t addr, uint64_t size, uint64_t data);
+uint64_t cpu_load(CPU *cpu, uint64_t addr, uint64_t size);

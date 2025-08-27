@@ -57,6 +57,7 @@ uint32_t cpu_fetch(CPU *cpu){
                                                              // currentyl we are just supporting the 
                                                              // 32 bit instruction size , not wriitng
                                                              // support for 16 bit and and other variabvle size instruction sizes
+    return inst;
 }
 
 void dump_register_content(CPU *cpu){
@@ -75,4 +76,39 @@ void dump_register_content(CPU *cpu){
     std::cout<<"Function argument 2 "<<cpu->cpu_reg[12]<<std::endl;
     std::cout<<"Function argument 3 "<<cpu->cpu_reg[13]<<std::endl;
     std::cout<<"Function argument 4 "<<cpu->cpu_reg[14]<<std::endl;
+    std::cout<<"function argument 5 "<<cpu->cpu_reg[15]<<std::endl;
+    std::cout<<"Function argument 6 "<<cpu->cpu_reg[16]<<std::endl;
+    std::cout<<"Function argument 7 "<<cpu->cpu_reg[17]<<std::endl;
+    std::cout<<"saved register 2 "<<cpu->cpu_reg[18]<<std::endl;
+    std::cout<<"saved register 3  "<<cpu->cpu_reg[19]<<std::endl;
+    std::cout<<"saved register 4  "<<cpu->cpu_reg[20]<<std::endl;
+    std::cout<<"saved register 5  "<<cpu->cpu_reg[21]<<std::endl;
+    std::cout<<"saved register 6  "<<cpu->cpu_reg[22]<<std::endl;
+    std::cout<<"saved register 7  "<<cpu->cpu_reg[23]<<std::endl;
+
+    std::cout<<"saved register 8  "<<cpu->cpu_reg[24]<<std::endl;
+    std::cout<<"saved register 9  "<<cpu->cpu_reg[25]<<std::endl;
+    std::cout<<"saved register 10  "<<cpu->cpu_reg[26]<<std::endl;
+    std::cout<<"saved register 11 "<<cpu->cpu_reg[27]<<std::endl;
+    std::cout<<"temporary register 3 "<<cpu->cpu_reg[28]<<std::endl;
+    std::cout<<"temporary register 4 "<<cpu->cpu_reg[29]<<std::endl;
+    std::cout<<"temporary register 5   "<<cpu->cpu_reg[30]<<std::endl;
+    std::cout<<"temporary register 6  "<<cpu->cpu_reg[31]<<std::endl;
+}
+
+uint64_t cpu_load(CPU *cpu, uint64_t addr, uint64_t size){
+    
+    // So this CPU load is highest level of abstraction function 
+    // for CPU to load data from the DRAM memory
+
+    // this will just take the loaded value from the bus, whenever CPU 
+    // wants to load the data from DRAM ram
+    return load_from_bus(&(cpu->bus), addr, size);
+
+}
+
+void cpu_store(CPU *cpu, uint64_t addr, uint64_t size, uint64_t data){
+
+    // same as cpu_loads concept. 
+    store_on_bus(&(cpu->bus), addr, size, data);
 }
