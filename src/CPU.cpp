@@ -1,4 +1,5 @@
 #include "../header_files/CPU.h"
+#include "../header_files/INSTRUNCTION.h"
 
 #include <iostream>
 
@@ -112,3 +113,4 @@ void cpu_store(CPU *cpu, uint64_t addr, uint64_t size, uint64_t data){
     // same as cpu_loads concept. 
     store_on_bus(&(cpu->bus), addr, size, data);
 }
+
