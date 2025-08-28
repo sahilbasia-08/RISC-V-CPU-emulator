@@ -18,7 +18,7 @@ uint64_t rd(uint32_t addr){
 
 // func3 take 3 bits from range 12-14
 uint64_t func3(uint32_t addr){
-    return (0x3 & (addr>>12));
+    return (0x7 & (addr>>12));
 }
 
 // rs1 takes 5 bits from rnage 15- 19
