@@ -10,4 +10,5 @@ add_executable(risc_v_emu
               src/BUS.cpp
               src/DRAM.cpp
               src/CPU.cpp
+              src/INSTRUCTION.cpp
               )

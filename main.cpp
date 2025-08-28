@@ -1,6 +1,7 @@
 #include "./header_files/BUS.h"
 #include "./header_files/DRAM.h"
 #include "./header_files/CPU.h"
+#include "./header_files/INSTRUNCTION.h"
 
 #include <iostream>
 
@@ -19,5 +20,7 @@ int main(){
     std::cout<<"Storing value 10919191919 for testing at address 0x80000000"<<std::endl;
     cpu_store(&cpu, 2147483648, 64, (uint64_t)10919191919);
     std::cout<<"value loaded is "<<cpu_load(&cpu, 2147483648, 64)<<std::endl;
+
+    imm_s(2147483648);
     return 0;
 }
