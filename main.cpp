@@ -18,7 +18,8 @@ static void test_decode_word(CPU* cpu, uint32_t addr, const char* label) {
     // Try each immediate; print what makes sense for that format
     std::cout << "  imm_i=" << imm_i(inst)
               << "  imm_s=" << imm_s(inst)
-              << "  imm_j=" << imm_j(inst) << "\n\n";
+              << "  imm_j=" << imm_j(inst) 
+              << "  imm_b=" << imm_b(inst) <<"\n\n";
 }
 
 
@@ -45,14 +46,17 @@ int main(){
     uint32_t inst_sw   = 0xFE552823; // SW x5,-16(x10)
     uint32_t inst_jalP = 0x010000EF; // JAL x1,+16
     uint32_t inst_jalN = 0xFFDFF0EF; // JAL x1,-4
-
+    uint32_t inst_beq = 0x00208863; // BEQ x1,x2,+16
     cpu_store(&cpu, DRAM_BASE_ADDRESS + 0x00, 32, inst_addi);
     cpu_store(&cpu, DRAM_BASE_ADDRESS + 0x04, 32, inst_sw);
     cpu_store(&cpu, DRAM_BASE_ADDRESS + 0x08, 32, inst_jalP);
     cpu_store(&cpu, DRAM_BASE_ADDRESS + 0x0C, 32, inst_jalN);
+    cpu_store(&cpu, DRAM_BASE_ADDRESS + 0x10, 32, inst_beq);
+    
     test_decode_word(&cpu, DRAM_BASE_ADDRESS + 0x00, "ADDI x1,x0,-1");
     test_decode_word(&cpu, DRAM_BASE_ADDRESS + 0x04, "SW   x5,-16(x10)");
     test_decode_word(&cpu, DRAM_BASE_ADDRESS + 0x08, "JAL  x1,+16");
     test_decode_word(&cpu, DRAM_BASE_ADDRESS + 0x0C, "JAL  x1,-4");
+    test_decode_word(&cpu, DRAM_BASE_ADDRESS + 0x10, "BEQ  x1,x2,+16");
     return 0;
 }

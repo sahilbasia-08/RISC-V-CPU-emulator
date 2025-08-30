@@ -81,17 +81,19 @@ int64_t imm_j(uint32_t instrn){
 }
 
 // for immediate in U type 
-// imm[31:12] = 
 uint64_t imm_u(uint32_t instrn){
     return (instrn & 0xFFFFF999);
 }
 
+// this immediate is for break type instructions
 int64_t imm_b(uint32_t instrn){
     int64_t temp = 0;
-    temp |= (instrn & 0x80000000) >> 19;
-    temp |= ((instrn & 0x80) << 4);
-    temp |= ((instrn >> 20) & 0x7e0);
-    temp |= ((instrn >> 7) & 0x1e);
-
-    return ((int64_t)(int32_t)instrn);
+    temp |= ((instrn >> 8) & 0xF) << 1; // imm[12] from bit 31
+    temp |= ((instrn >> 7) & 0x1 ) << 11; // imm[11] from bit 7
+    temp |= ((instrn >> 25) & 0x3F) <<5; // imm[10:5] from bits 30..25
+    temp |= ((instrn >> 31) & 0x1) << 12; // imm[12] from bit 31
+    // performing the sign extension 
+    int64_t shift = 64 - 11;
+    temp = (temp << shift) >> shift;
+    return temp;
 }
