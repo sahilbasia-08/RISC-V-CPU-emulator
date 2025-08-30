@@ -82,18 +82,24 @@ int64_t imm_j(uint32_t instrn){
 
 // for immediate in U type 
 uint64_t imm_u(uint32_t instrn){
-    return (instrn & 0xFFFFF999);
+    return (uint64_t)(instrn & 0xFFFFF000u);
 }
 
 // this immediate is for break type instructions
 int64_t imm_b(uint32_t instrn){
     int64_t temp = 0;
-    temp |= ((instrn >> 8) & 0xF) << 1; // imm[12] from bit 31
-    temp |= ((instrn >> 7) & 0x1 ) << 11; // imm[11] from bit 7
-    temp |= ((instrn >> 25) & 0x3F) <<5; // imm[10:5] from bits 30..25
-    temp |= ((instrn >> 31) & 0x1) << 12; // imm[12] from bit 31
-    // performing the sign extension 
-    int64_t shift = 64 - 11;
+    temp |= ((instrn >> 31) & 0x1) << 12; // imm[12]  from bit 31
+    temp |= ((instrn >> 7)  & 0x1) << 11; // imm[11]  from bit 7
+    temp |= ((instrn >> 25) & 0x3F) << 5; // imm[10:5] from bits 30..25
+    temp |= ((instrn >> 8)  & 0xF)  << 1; // imm[4:1]  from bits 11..8
+    // imm[0] = 0
+    int64_t shift = 64 - 13;              // sign-extend 13-bit B-imm
     temp = (temp << shift) >> shift;
     return temp;
+}
+
+// shamt refers to shift ammount and is only required for 
+// immediate shift instructions 
+uint32_t shamt(uint32_t inst) {
+    return (inst >> 20) & 0x1F;
 }
